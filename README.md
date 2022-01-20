@@ -1,7 +1,8 @@
 
 # 02507_Learn_based_curve_deformation
 
-![helmet](example/14.jpg)
+:---------------------:|:-------------------------:
+![cat](example/14.jpg) | ![dog](example/46.jpg)
 
 ## Configuration
 
