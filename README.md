@@ -1,8 +1,7 @@
 
 # 02507_Learn_based_curve_deformation
 
-:---------------------:|:-------------------------:
-![cat](example/14.jpg) | ![dog](example/46.jpg)
+<img src="example/14.jpg" width="425"/> <img src="example/46.jpg" width="425"/> 
 
 ## Configuration
 
