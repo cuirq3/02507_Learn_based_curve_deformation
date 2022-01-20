@@ -1,0 +1,12 @@
+__pycache__/
+.idea/
+.ipynb_checkpoints/
+*.so
+*.orig
+*.o
+*.json
+*.npy
+*.png
+*.jpg
+*.0
+*.pt
