@@ -6,7 +6,5 @@ __pycache__/
 *.o
 *.json
 *.npy
-*.png
-*.jpg
 *.0
 *.pt

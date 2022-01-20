@@ -10,6 +10,7 @@ import numpy as np
 from scipy.interpolate import interp1d
 import easy_snake as es
 import PIL.Image
+from argparse import ArgumentParser
 
 transform = transforms.Compose([
     transforms.ToPILImage(),
@@ -229,31 +230,44 @@ def organize_hdf5_dataset(root, image_root, ann_root, item_list_name):
                 f["img_size"][-img_size.shape[0]:] = img_size
     f_list.close()
 
+def get_model_arguments():
+    parser = ArgumentParser()
+
+    # parametrize the network
+    parser.add_argument('-rt', '--dataset_root', type=str, default=r'E:\DTU\Jan_2022\Dataset\Oxford')
+    parser.add_argument('--organize', action='store_true')
+
+    return parser
 
 if __name__ == '__main__':
-    isDraw = True
+    parser = get_model_arguments()
+    args = parser.parse_args()
+    isDraw = not args.organize
+
     root = r'E:\DTU\Jan_2022\Dataset\Oxford'
-    img_root = r'E:\DTU\Jan_2022\Dataset\Oxford\images'
-    ann_root = r'E:\DTU\Jan_2022\Dataset\Oxford\annotations\trimaps'
-    # organize_hdf5_dataset(root, img_root, ann_root, 'train')
-    # organize_hdf5_dataset(root, img_root, ann_root, 'val')
+    img_root = os.path.join(root, 'images')
+    ann_root = os.path.join(root, 'annotations', 'trimaps')
+    if not isDraw:
+        organize_hdf5_dataset(root, img_root, ann_root, 'train')
+        organize_hdf5_dataset(root, img_root, ann_root, 'val')
 
-    file_name = 'Abyssinian_2'
-    obj_id = 1
-    file_path = os.path.join(root, 'images', file_name + '.jpg')
-    img = cv2.imread(file_path)
-    ann_path = os.path.join(root, 'annotations', 'trimaps', file_name + '.png')
-    seg = read_annotation(ann_path)
+    else:
+        file_name = 'Abyssinian_2'
+        obj_id = 1
+        file_path = os.path.join(root, 'images', file_name + '.jpg')
+        img = cv2.imread(file_path)
+        ann_path = os.path.join(root, 'annotations', 'trimaps', file_name + '.png')
+        seg = read_annotation(ann_path)
 
-    bboxes = get_bbox(seg, img, isDraw)
-    extreme_points = find_extreme_point(bboxes[0],seg,obj_id,img, isDraw)
-    octagon_points = get_octagon_points(extreme_points, bboxes[0], img, isDraw)
-    init_vert = get_init_vertices(extreme_points, octagon_points, img, isDraw)
-    gt_vert = get_gt_vertices(extreme_points, img, seg, isDraw)
-    if isDraw:
-        draw_poly_segments(octagon_points, img)
-        draw_poly_segments(gt_vert[:int(len(gt_vert)/2)], img)
-        plt.imshow(seg)
-        plt.axis('off')
-        plt.show()
-    pass
+        bboxes = get_bbox(seg, img, isDraw)
+        extreme_points = find_extreme_point(bboxes[0],seg,obj_id,img, isDraw)
+        octagon_points = get_octagon_points(extreme_points, bboxes[0], img, isDraw)
+        init_vert = get_init_vertices(extreme_points, octagon_points, img, isDraw)
+        gt_vert = get_gt_vertices(extreme_points, img, seg, isDraw)
+        if isDraw:
+            draw_poly_segments(octagon_points, img)
+            draw_poly_segments(gt_vert[:int(len(gt_vert)/2)], img)
+            plt.imshow(seg)
+            plt.axis('off')
+            plt.show()
+        pass
