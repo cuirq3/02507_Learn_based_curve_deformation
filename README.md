@@ -1,7 +1,7 @@
 
 # 02507_Learn_based_curve_deformation
 
-<img src="example/14.jpg" height="400"/> <img src="example/46.jpg" height="400"/> 
+<img src="example/14.jpg" height="350"/> <img src="example/46.jpg" height="350"/> 
 
 ## Configuration
 
